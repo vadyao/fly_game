@@ -1,0 +1,23 @@
+* {
+    transition: 1s;
+}
+body {
+    background: #333;
+    color: #aaa;
+    overflow: hidden;
+}
+.fly {
+    width: 100px;
+    position: absolute;
+}
+
+.spot {
+    width: 180px;
+    position: absolute;
+}
+
+#header {
+    background: #66CCCC;
+    height: 116px;
+    width: 1047px;
+}
