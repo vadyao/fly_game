@@ -22,9 +22,6 @@ for (let i = 0; i < fly_amount; i++) {
         pressed = true
         fly[i].src = 'src/img/spot.png'
         fly[i].flattened = true
-        //clearInterval(window.interval)
-
-        // make true
     })
 }
 
@@ -46,8 +43,6 @@ function FlyRotate2() {
 }
 
 
-
-
 window.interval = setInterval(() => {
    let check_alive_fly = false
     for (let i = 0; i < fly_amount; i++) {
@@ -57,7 +52,6 @@ window.interval = setInterval(() => {
             fly[i].style.top = FlyPositionX() + 'px'
             fly[i].style.transform = `rotate(${FlyRotate()}deg)`
         }
-
     }
     if (!check_alive_fly) end_game()
 }, 1000)
@@ -65,7 +59,6 @@ window.interval = setInterval(() => {
 function end_game(){
     clearInterval(window.interval)
     alert("congratulations")
-
 }
 
 
@@ -77,15 +70,3 @@ document.addEventListener('click', (e) => {
         fly[0].style.top = e.clientY + 'px'
     }
 })
-
-    //
-    //
-    // 1) получть координаты курсора  ('120px')
-    //
-    // 2) установить эти координаты для мухи (fly.style.left = cusorLeft)
-    //
-    // 3  make 3 flys
-    //
-    //  if kill all flys - 3 show window with congratulations
-    //
-    //
