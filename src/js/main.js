@@ -1,29 +1,44 @@
 const log = console.log;
 
-const fly_amount = 3;
-const gameArea = document.querySelector('.game-area')
-
-for (let i = 0; i < fly_amount; i++) {
-    gameArea.innerHTML += `
-    <img class = "fly" src="src/img/fly.png" alt="">
-`
-}
-const fly = gameArea.querySelectorAll('.fly')
-log(fly)
+let fly_amount = 2;
+let fly = []
 let pressed = false;
-
+let current_fly = 0
 let new_x = 0
 let new_y = 0
 let old_x = 0
 let old_y = 0
 
-for (let i = 0; i < fly_amount; i++) {
-    fly[i].addEventListener('click', (e) => {
-        pressed = true
-        fly[i].src = 'src/img/spot.png'
-        fly[i].flattened = true
-    })
+const gameArea = document.querySelector('.game-area')
+const myProgress = document.querySelector('#myProgress')
+const restart = document.querySelector('#restart')
+restart.addEventListener('click', init)
+
+function init() {
+    fly_amount++
+    gameArea.innerHTML = ''
+    for (let i = 0; i < fly_amount; i++) {
+        gameArea.innerHTML += `
+        <img class="fly" name="${i}" src="src/img/fly.png" alt="">
+    `
+    }
+    fly = gameArea.querySelectorAll('.fly')
+
+    for (let i = 0; i < fly_amount; i++) {
+        fly[i].addEventListener('click', (e) => {
+            log('name:', e.target.name)
+            pressed = true
+            current_fly = e.target.name
+            fly[i].src = 'src/img/spot.png'
+            fly[i].flattened = true
+            myProgress.style.width = width() + '%'
+        })
+    }
+    loop()
+    myProgress.style.width = '100%'
 }
+
+init()
 
 
 function FlyPositionX() {
@@ -42,31 +57,46 @@ function FlyRotate2() {
 
 }
 
-
-window.interval = setInterval(() => {
-   let check_alive_fly = false
-    for (let i = 0; i < fly_amount; i++) {
-        if (!fly[i].flattened){
-            check_alive_fly = true
-            fly[i].style.left = FlyPositionX() + 'px'
-            fly[i].style.top = FlyPositionX() + 'px'
-            fly[i].style.transform = `rotate(${FlyRotate()}deg)`
+function loop() {
+    window.interval = setInterval(() => {
+        check_alive_fly = false
+        window.amount_alive_fly = 0
+        for (let i = 0; i < fly_amount; i++) {
+            if (!fly[i].flattened) {
+                check_alive_fly = true
+                window.amount_alive_fly++
+                fly[i].style.left = FlyPositionX() + 'px'
+                fly[i].style.top = FlyPositionX() + 'px'
+                fly[i].style.transform = `rotate(${FlyRotate()}deg)`
+            }
         }
-    }
-    if (!check_alive_fly) end_game()
-}, 1000)
+        if (!check_alive_fly) end_game()
+        log('amount_alive_fly', window.amount_alive_fly)
 
-function end_game(){
-    clearInterval(window.interval)
-    alert("congratulations")
+    }, 1000)
 }
 
+
+function end_game() {
+    clearInterval(window.interval)
+    setTimeout(() => {
+        alert("congratulations")
+    }, 0)
+}
 
 
 document.addEventListener('click', (e) => {
     log(e)
     if (pressed) {
-        fly[0].style.left = e.clientX + 'px'
-        fly[0].style.top = e.clientY + 'px'
+        fly[current_fly].style.left = e.clientX + 'px'
+        fly[current_fly].style.top = e.clientY + 'px'
+        pressed = false
     }
 })
+
+
+function width() {
+    x = ((window.amount_alive_fly - 1) * 100) / fly_amount
+    log(window.amount_alive_fly)
+    return x
+}

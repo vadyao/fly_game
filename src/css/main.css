@@ -21,3 +21,15 @@ body {
     height: 116px;
     width: 1047px;
 }
+
+#myProgress {
+    width: 100%;
+    background-color: grey;
+}
+
+#myBar {
+  background-color: #f3f3f3;
+  border: 0;
+  height: 18px;
+  border-radius: 9px;
+}
